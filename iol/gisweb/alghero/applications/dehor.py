@@ -56,9 +56,9 @@ class irideConvert(object):
         else:
             t = v["type"]
             if t == "const":
-                return self.const(self,v)
+                return self.const(v)
             elif t == "item":
-                return self.item(self,v)
+                return self.item(v)
             elif t == "function":
                 pass
 
