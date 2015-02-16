@@ -1,0 +1,12 @@
+<Allegato>
+    <TipoFile>string</TipoFile>
+    <ContentType>string</ContentType>
+    <Image>base64Binary</Image>
+    <Commento>string</Commento>
+    <IdAllegatoPrincipale>string</IdAllegatoPrincipale>
+    <Schema>string</Schema>
+    <NomeAllegato>string</NomeAllegato>
+    <TipoAllegato>string</TipoAllegato>
+    <URI>string</URI>
+    <Hash>string</Hash>
+</Allegato>

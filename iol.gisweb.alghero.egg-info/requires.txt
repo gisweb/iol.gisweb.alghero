@@ -1,0 +1,4 @@
+setuptools
+plone.api
+Products.CMFPlomino
+iol.gisweb.utils

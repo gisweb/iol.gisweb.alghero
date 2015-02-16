@@ -1,0 +1,18 @@
+<MittenteDestinatario>
+    <CodiceFiscale>string</CodiceFiscale>
+    <CognomeNome>string</CognomeNome>
+    <Nome>string</Nome>
+    <Indirizzo>string</Indirizzo>
+    <Localita>string</Localita>
+    <CodiceComuneResidenza>string</CodiceComuneResidenza>
+    <DataNascita>string</DataNascita>
+    <CodiceComuneNascita>string</CodiceComuneNascita>
+    <Nazionalita>string</Nazionalita>
+    <DataInvio_DataProt>string</DataInvio_DataProt>
+    <Spese_NProt>string</Spese_NProt>
+    <Mezzo>string</Mezzo>
+    <DataRicevimento>string</DataRicevimento>
+    <TipoSogg>string</TipoSogg>
+    <TipoPersona>string</TipoPersona>
+    <Recapiti xsi:nil="true" />
+</MittenteDestinatario>

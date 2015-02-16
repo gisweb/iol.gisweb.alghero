@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <InserisciProtocolloEAnagrafiche xmlns="http://tempuri.org/">
+      <ProtoIn>
+        <Data>string</Data>
+        <DataProt>string</DataProt>
+        <NumProt>string</NumProt>
+        <Classifica>string</Classifica>
+        <TipoDocumento>string</TipoDocumento>
+        <Oggetto>string</Oggetto>
+        <OggettoBilingue>string</OggettoBilingue>
+        <Origine>string</Origine>
+        <MittenteInterno>string</MittenteInterno>
+        <MittentiDestinatari>
+          <MittenteDestinatario>
+            <CodiceFiscale>string</CodiceFiscale>
+            <CognomeNome>string</CognomeNome>
+            <Nome>string</Nome>
+            <Indirizzo>string</Indirizzo>
+            <Localita>string</Localita>
+            <CodiceComuneResidenza>string</CodiceComuneResidenza>
+            <DataNascita>string</DataNascita>
+            <CodiceComuneNascita>string</CodiceComuneNascita>
+            <Nazionalita>string</Nazionalita>
+            <DataInvio_DataProt>string</DataInvio_DataProt>
+            <Spese_NProt>string</Spese_NProt>
+            <Mezzo>string</Mezzo>
+            <DataRicevimento>string</DataRicevimento>
+            <TipoSogg>string</TipoSogg>
+            <TipoPersona>string</TipoPersona>
+            <Recapiti xsi:nil="true" />
+          </MittenteDestinatario>
+        </MittentiDestinatari>
+        <AggiornaAnagrafiche>string</AggiornaAnagrafiche>
+        <InCaricoA>string</InCaricoA>
+        <AnnoPratica>string</AnnoPratica>
+        <NumeroPratica>string</NumeroPratica>
+        <DataDocumento>string</DataDocumento>
+        <NumeroDocumento>string</NumeroDocumento>
+        <NumeroAllegati>string</NumeroAllegati>
+        <DataEvid>string</DataEvid>
+        <OggettoStandard>string</OggettoStandard>
+        <Utente>string</Utente>
+        <Ruolo>string</Ruolo>
+        <Allegati>
+          <Allegato>
+            <TipoFile>string</TipoFile>
+            <ContentType>string</ContentType>
+            <Image>base64Binary</Image>
+            <Commento>string</Commento>
+            <IdAllegatoPrincipale>string</IdAllegatoPrincipale>
+            <Schema>string</Schema>
+            <NomeAllegato>string</NomeAllegato>
+            <TipoAllegato>string</TipoAllegato>
+            <URI>string</URI>
+            <Hash>string</Hash>
+          </Allegato>
+        </Allegati>
+      </ProtoIn>
+    </InserisciProtocolloEAnagrafiche>
+  </soap12:Body>
+</soap12:Envelope>

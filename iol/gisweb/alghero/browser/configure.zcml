@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="iol.gisweb.alghero">
+    <browser:page
+       name="protocollaInvia"
+       for="Products.CMFPlomino.interfaces.IPlominoDocument"
+       layer="..interfaces.IIolApp"
+       class=".views.protocolloInvia"
+       permission="zope2.View"
+       />
+</configure>
