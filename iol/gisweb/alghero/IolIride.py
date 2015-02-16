@@ -2,9 +2,10 @@
 from zope.interface import Interface, implements, Attribute
 from AccessControl import ClassSecurityInfo
 from App.class_init import InitializeClass
-
+from zope.component import getUtility,adapts
 from Products.CMFPlomino.interfaces import IPlominoDocument
-from .interfaces import IIolIride
+import config
+from .interfaces import IIolApp,IIolIride
 
 
 class IolIride(object):
@@ -19,8 +20,11 @@ class IolIride(object):
         self.user = params['user']
         self.role = params['role']
 
-    def inserisciProtocollo(self):
-
-        return
+    security.declarePublic('richiediProtocollo')
+    def richiediProtocollo(self):
+        app = self.document.getItem(config.APP_FIELD,config.APP_FIELD_DEFAULT_VALUE)
+        utils = getUtility(IIolApp,app)
+        return utils.richiediProtocollo(self.document)
 
 InitializeClass(IolIride)
+

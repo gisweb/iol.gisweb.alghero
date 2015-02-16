@@ -4,9 +4,9 @@
     i18n_domain="iol.gisweb.alghero">
     <browser:page
        name="protocollaInvia"
-       for="Products.CMFPlomino.interfaces.IPlominoDocument"
-       layer="..interfaces.IIolApp"
-       class=".views.protocolloInvia"
+       for="iol.gisweb.alghero.interfaces.IIolApp"
+       layer="..interfaces.IIolAppsLayer"
+       class=".views.protocollaInvia"
        permission="zope2.View"
        />
 </configure>

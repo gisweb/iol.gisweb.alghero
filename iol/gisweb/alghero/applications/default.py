@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-from iol.gisweb.spezia.interfaces import IIolApp
+from iol.gisweb.alghero.interfaces import IIolApp
 from zope import component
 from AccessControl import ClassSecurityInfo
 from plone import api
@@ -31,4 +31,5 @@ class defaultApp(object):
             nuovoNumero = (brains[0].getObject().getItem(IOL_NUM_FIELD,0) or 0) +1
 
         return nuovoNumero
+
 

@@ -1,0 +1,47 @@
+{
+  "Data" : {"type" : "function", "name" : "dateToString", "item" : "data_presentazione"},
+  "Classifica" : {"type" : "const", "value" : ""},
+  "TipoDocumento" : {"type" : "const", "value" : ""},
+  "Oggetto" : {"type" : "item", "value" : "oggetto"},
+  "Origine" : {"type" : "const", "value" : "A"},
+  "MittenteInterno" : "",
+  "MittenteDestinatario" : [{
+    "CodiceFiscale" : {"type" : "item", "value" : "fisica_cf"},
+    "CognomeNome" : {"type" : "function", "name" : "nominativo", "item" : "cognome"},
+    "Nome" : {"type" : "item", "value" : "fisica_nome"},
+    "Indirizzo" : "",
+    "Localita" : "",
+    "CodiceComuneResidenza" : "",
+    "DataNascita" : "",
+    "CodiceComuneNascita" : "",
+    "Nazionalita" : "",
+    "DataInvio_DataProt" : "",
+    "Spese_NProt" : "",
+    "Mezzo" : "",
+    "DataRicevimento" : "",
+    "TipoSogg" : "",
+    "TipoPersona" : "",
+    "Recapito" : [{
+      "TipoRecapito" : "",
+      "ValoreRecapito" : ""
+    }]
+  }],
+  "AggiornaAnagrafe" : {"type" : "const", "value" : "S"},
+  "InCaricaA" : {"type" : "const", "value" : "A"},
+  "AnnoPratica" : {"type" : ""},
+  "NumeroPratica" : {"type" : "const", "value" : "A"},
+  "DataDocumento" : {"type" : "const", "value" : "A"},
+  "NumeroDocumento" : {"type" : "const", "value" : "A"},
+  "NumeroAllegati" : {"type" : "const", "value" : 0},
+  "Dataevid" : {"type" : "const", "value" : "A"},
+  "OggettoStandard" : "",
+  "Utente" : {"type" : "const", "value" : "A"},
+  "Ruolo" : {"type" : "const", "value" : "A"},
+  "Allegato" : [{
+    "TipoFile" : "",
+    "ContentType" : "",
+    "Image" : "",
+    "Commento" : "",
+    "NomeAllegato" : ""
+  }]
+}

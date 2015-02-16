@@ -12,6 +12,7 @@ iol.gisweb.alghero.egg-info/requires.txt
 iol.gisweb.alghero.egg-info/top_level.txt
 iol/gisweb/__init__.py
 iol/gisweb/alghero/IolApp.py
+iol/gisweb/alghero/IolIride.py
 iol/gisweb/alghero/__init__.py
 iol/gisweb/alghero/config.py
 iol/gisweb/alghero/interfaces.py
@@ -19,5 +20,6 @@ iol/gisweb/alghero/setuphandlers.py
 iol/gisweb/alghero/tests.py
 iol/gisweb/alghero/applications/__init__.py
 iol/gisweb/alghero/applications/default.py
+iol/gisweb/alghero/applications/scia.py
 iol/gisweb/alghero/browser/__init__.py
 iol/gisweb/alghero/browser/views.py
