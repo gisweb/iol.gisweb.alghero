@@ -13,5 +13,6 @@ class protocollaInvia(object):
 
     def __call__(self):
         doc = self.aq_parent
+        app = self.document.getItem(config.APP_FIELD,config.APP_FIELD_DEFAULT_VALUE)
         iDoc = IolApp(doc)
-        return iDoc.protocollaInvia(doc)
+        return iDoc.protocollaInvia()
