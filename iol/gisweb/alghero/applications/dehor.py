@@ -7,11 +7,11 @@ from AccessControl import ClassSecurityInfo
 from plone import api
 
 from gisweb.iol.permissions import IOL_READ_PERMISSION, IOL_EDIT_PERMISSION, IOL_REMOVE_PERMISSION
-
+from gisweb.utils import  addToDate
 from iol.gisweb.utils.config import USER_CREDITABLE_FIELD,USER_UNIQUE_FIELD,IOL_APPS_FIELD,STATUS_FIELD,IOL_NUM_FIELD
 from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
-from Products.CMFPlomino.PlominoUtils import DateToString, Now
+from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
 
 
 class dehorApp(object):
@@ -47,7 +47,7 @@ class dehorApp(object):
             res[k] = irideConvert(doc)(v)
         return res
 
-        security.declarePublic('creaElencoPagamenti')
+    security.declarePublic('creaElencoPagamenti')
     def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):
         doc = obj
         iDoc = IolApp(doc)
@@ -158,6 +158,133 @@ class dehorApp(object):
                 update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato)
                 dg = iDoc.translateDizToList('sub_elenco_pagamenti','elenco_pagamenti',update)
                 return dg
+
+    security.declarePublic('ratePagamenti')
+    def ratePagamenti(self,obj,codice_pagamento=''):
+        doc = obj
+        iDoc = IolApp(doc)
+        db = doc.getParentDatabase()
+        pagamenti = doc.getItem('elenco_pagamenti','')
+        
+        list_rata = [v for v in pagamenti if codice_pagamento in v[0]][0]
+        importo = list_rata[1]
+        rata = float(importo)/4
+        list_rata[1]=round(rata,2)
+        list_rata[4]='non pagato'
+        k= list_rata[0][:-2]
+        del list_rata[0]
+        diz={}
+        # crea dizionario con chiavi i codici delle rate
+        for i in range(4):
+            key = '%s0%s' %(k,i+1)
+            diz[key]=list_rata
+
+        fine = doc.getItem('autorizzata_al')
+        inizio = doc.getItem('autorizzata_dal')
+        tipo_occupazione = doc.getItem('durata_occupazione')
+        def scadenzaRate(diz,date_scadenza):
+            n_diz = dict()
+            anno = DateToString(fine,'%Y')
+            diz_ord = diz.keys()
+            diz_ord.sort()
+            
+            res = dict()
+           
+            for idx,rata in enumerate(diz_ord):        
+                num_rata = rata[-1]
+                alist = list()
+                if int(idx) + 1 == int(num_rata):            
+                    l_rata = diz[rata]
+                    if date_scadenza[idx]!='':            
+                        data_scad = '%s/%s' %(date_scadenza[idx],anno)
+                        l_rata[5] = data_scad
+                        n_diz[rata] = l_rata
+                    for i in l_rata:
+                        alist.append(i)
+                    res[rata]=alist
+             
+            return res
+        def calcolaPeriodoIntermedio(inizio,fine):
+            intermedio = []
+            durata = int(fine - inizio)/3    
+            intermedio.append(DateToString(addToDate(inizio, durata , units='days'),'%d/%m'))
+            intermedio.append(DateToString(addToDate(inizio, durata*2 , units='days'),'%d/%m'))
+            return intermedio  
+        if fine < addToDate(inizio, 8, units='months'):
+            # inferiore a 8 - 4 mesi
+            scadenza_rate_inf4 = [0,0,0,0] 
+                  
+                       
+            scadenza_rate_inf4[0] = ''
+            scadenza_rate_inf4[1] = calcolaPeriodoIntermedio(inizio,fine)[0]
+            scadenza_rate_inf4[2] = calcolaPeriodoIntermedio(inizio,fine)[1]
+            scadenza_rate_inf4[3] = DateToString(fine,'%d/%m')
+            diz_scadenze = scadenzaRate(diz,scadenza_rate_inf4)
+            
+        # anno solare intero        
+        else:
+            diz_scadenze = scadenzaRate(diz,['','30/04','31/07','31/10'])      
+        # gestione dei fields associati al datagrid    
+        form = db.getForm('sub_elenco_pagamenti')
+        fld = form.getFormField('elenco_rate_pagamenti')
+        elenco_fields = fld.getSettings().field_mapping    
+        lista_fields = elenco_fields.split(',')    
+
+        dg=[]
+        for v in diz_scadenze.keys():
+            lista=[v]
+            ll=[i for i in diz_scadenze[v]]
+            lista = lista +ll
+            if len(lista) < len(lista_fields):
+                diff_fields = len(lista_fields) -len(lista)
+                # add empty element to list
+                for i in range(diff_fields):            
+                    lista.insert(len(lista),'')
+            dg.append(lista)
+        dg.sort()
+        return dg
+
+    security.declarePublic('creaElencoRate')
+    def creaElencoRate(self,obj):
+        doc = obj
+        iDoc = IolApp(doc)
+        db=doc.getParentDatabase()
+        if doc.getItem('elenco_rate_pagamenti',''):
+            rate= iDoc.translateListToDiz(doc.getId(),'sub_elenco_pagamenti','elenco_rate_pagamenti')
+        else:
+            rate = []
+        if doc.getItem('elenco_rate_pagamenti_temp',''):
+            pagamenti_temp = iDoc.translateListToDiz(doc.getId(),'sub_elenco_pagamenti','elenco_rate_pagamenti_temp')
+        else:
+            pagamenti_temp = []
+        form = db.getForm('sub_elenco_pagamenti')
+        fld = form.getFormField('elenco_rate_pagamenti')
+        # genera un dizionario di dizionari con chiavi, i codici dei pagamenti
+        def dizKeyCod(listDiz):
+            d={}
+            for diz in listDiz:    
+                d[diz['codice_sub_pagamento']]=diz        
+            return d
+        rate_richieste = doc.getItem('permesso_rate_opt')
+
+        if not isinstance(rate_richieste,list) and rate_richieste:    
+            rate_richieste = [rate_richieste]
+         
+        # crea il dg delle rate
+        if not doc.getItem('elenco_rate_pagamenti'):
+            
+            if len(rate_richieste) > 0:                
+                dg_rate = self.ratePagamenti(doc,rate_richieste[0])
+                return dg_rate
+                doc.setItem('elenco_rate_pagamenti_temp',dg_rate)
+                return dg_rate
+        else:
+            if iDoc.confrontaDiz(dizKeyCod(rate),dizKeyCod(pagamenti_temp)) == True:
+                # i dizionari  non sono cambiati quindi non è stato aggiornato manualmente il dg
+                if len(rate_richieste) > 0:      
+                    dg_rate = self.ratePagamenti(doc,rate_richieste[0])
+                    doc.setItem('elenco_rate_pagamenti_temp',dg_rate)
+                    return dg_rate
 
 class irideConvert(object):
     def __init__(self,obj):

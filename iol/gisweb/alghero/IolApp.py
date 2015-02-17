@@ -33,7 +33,17 @@ class IolApp(object):
     def creaElencoPagamenti(self,codici_pagamenti,codice_allegato='',allegato=False):
         utils = getUtility(IIolApp,self.tipo_app)
         return utils.creaElencoPagamenti(self.document,codici_pagamenti,codice_allegato='',allegato=False)
-        
+
+    security.declarePublic('ratePagamenti')
+    def ratePagamenti(self,obj,codice_pagamento):
+        utils = getUtility(IIolApp,self.tipo_app)
+        return utils.ratePagamenti(self.document,codice_pagamento)
+
+    security.declarePublic('creaElencoRate')
+    def creaElencoRate(self,obj):
+        utils = getUtility(IIolApp,self.tipo_app)
+        return utils.creaElencoRate(self.document)
+
     security.declarePublic('translateListToDiz')
     def translateListToDiz(self,form='',field=''):
         doc = self.document
@@ -85,40 +95,38 @@ class IolApp(object):
                     if sub_diz[sub_diz_k] != diz_temp[d][sub_diz_k]:
                         return False
         return True     
-    
+    security.declarePublic('createMapPagamenti')
     def createMapPagamenti(self,codici_pagamenti):
         doc = self.document
 
-        def updateDictPagamenti(codici_pagamenti):
-            doc = self.document
-            if len(codici_pagamenti)>0:
-                cod_pagamenti = codici_pagamenti[0]
+        if len(codici_pagamenti)>0:
+            cod_pagamenti = codici_pagamenti[0]
 
-                db=doc.getParentDatabase()
-                lista_codici_pagamenti = cod_pagamenti.keys()
-                
-                list_codici = map(lambda codice: 'pagamenti-' + str(codice) ,lista_codici_pagamenti)    
-                diz_pagamenti = dict()
-                for codice in list_codici:
-                    diz_pagamento = dict()
-                    for v in db.get_property(codice)['value'].replace('\n','').split(','):
-                        # cod_lista es.'007' 
-                        cod_lista = codice.split('-')[1]
-                        key = v.split(':')[0]
-                        value = v.split(':')[1]         
+            db=doc.getParentDatabase()
+            lista_codici_pagamenti = cod_pagamenti.keys()
+            
+            list_codici = map(lambda codice: 'pagamenti-' + str(codice) ,lista_codici_pagamenti)    
+            diz_pagamenti = dict()
+            for codice in list_codici:
+                diz_pagamento = dict()
+                for v in db.get_property(codice)['value'].replace('\n','').split(','):
+                    # cod_lista es.'007' 
+                    cod_lista = codice.split('-')[1]
+                    key = v.split(':')[0]
+                    value = v.split(':')[1]         
 
-                        if key == 'importo_sub_pagamento' and cod_pagamenti[cod_lista] == '':
-                            diz_pagamento[key]=value
-                        elif key == 'importo_sub_pagamento':
-                            diz_pagamento[key]=cod_pagamenti[cod_lista]    
-                        else:    
-                            diz_pagamento[key]=value
+                    if key == 'importo_sub_pagamento' and cod_pagamenti[cod_lista] == '':
+                        diz_pagamento[key]=value
+                    elif key == 'importo_sub_pagamento':
+                        diz_pagamento[key]=cod_pagamenti[cod_lista]    
+                    else:    
+                        diz_pagamento[key]=value
 
-                    diz_pagamenti[codice.split('-')[1]]=diz_pagamento   
-                return diz_pagamenti
-            else:
-                return dict()
-        return updateDictPagamenti(codici_pagamenti) 
+                diz_pagamenti[codice.split('-')[1]]=diz_pagamento   
+            return diz_pagamenti
+        else:
+            return dict()
+       
 
     #Legge un file json dalla cartella mapping
     def loadJsonData(self,json_file):
