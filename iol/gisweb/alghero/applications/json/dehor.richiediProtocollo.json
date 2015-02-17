@@ -1,47 +1,49 @@
 {
-  "Data" : {"type" : "function", "name" : "dateToString", "item" : "data_presentazione"},
-  "Classifica" : {"type" : "const", "value" : ""},
-  "TipoDocumento" : {"type" : "const", "value" : ""},
+  "Data" : {"type" : "function", "name" : "Now", "item" : "data_presentazione"},
+  "Classifica" : {"type" : "const", "value" : "01.07"},
+  "TipoDocumento" : {"type" : "const", "value" : "LET"},
   "Oggetto" : {"type" : "item", "value" : "oggetto"},
   "Origine" : {"type" : "const", "value" : "A"},
   "MittenteInterno" : "",
-  "MittenteDestinatario" : [{
-    "CodiceFiscale" : {"type" : "item", "value" : "fisica_cf"},
-    "CognomeNome" : {"type" : "function", "name" : "nominativo", "item" : "cognome"},
-    "Nome" : {"type" : "item", "value" : "fisica_nome"},
-    "Indirizzo" : "",
-    "Localita" : "",
-    "CodiceComuneResidenza" : "",
-    "DataNascita" : "",
-    "CodiceComuneNascita" : "",
-    "Nazionalita" : "",
-    "DataInvio_DataProt" : "",
-    "Spese_NProt" : "",
-    "Mezzo" : "",
-    "DataRicevimento" : "",
-    "TipoSogg" : "",
-    "TipoPersona" : "",
-    "Recapito" : [{
-      "TipoRecapito" : "",
-      "ValoreRecapito" : ""
-    }]
-  }],
+  "MittenteDestinatario" : {"type" : "complex-list", "value" : [{
+		"CodiceFiscale" : {"type" : "item", "value" : "fisica_cf"},
+		"CognomeNome" : {"type" : "function", "name" : "nominativo", "item" : "cognome"},
+		"Nome" : {"type" : "item", "value" : "fisica_nome"},
+		"Indirizzo" : {"type" : "item", "value" : "fisica_indirizzo"},
+		"Localita" : {"type" : "item", "value" : "fisica_localita"},
+		"CodiceComuneResidenza" : {"type" : "item", "value" : "fisica_cod_comune_res"},
+		"DataNascita" : {"type" : "item", "value" : "fisica_data_nato"},
+		"CodiceComuneNascita" : {"type" : "item", "value" : "fisica_cod_comune_nato"},
+		"Nazionalita" : "",
+		"DataInvio_DataProt" : "",
+		"Spese_NProt" : "",
+		"Mezzo" : "",
+		"DataRicevimento" : "",
+		"TipoSogg" : {"type" : "const", "value" : "S"},
+		"TipoPersona" : {"type" : "const", "value" : "FI"},
+		"Recapito" : [{
+		  "TipoRecapito" : "",
+		  "ValoreRecapito" : ""
+		}]
+	  }]
+  },
   "AggiornaAnagrafe" : {"type" : "const", "value" : "S"},
-  "InCaricaA" : {"type" : "const", "value" : "A"},
-  "AnnoPratica" : {"type" : ""},
-  "NumeroPratica" : {"type" : "const", "value" : "A"},
-  "DataDocumento" : {"type" : "const", "value" : "A"},
-  "NumeroDocumento" : {"type" : "const", "value" : "A"},
+  "InCaricaA" : {"type" : "const", "value" : "PROTO"},
+  "AnnoPratica" : {"type" : "item", "item" : "anno_pratica"},
+  "NumeroPratica" : {"type" : "item", "value" : "numero_pratica"},
+  "DataDocumento" : "",
+  "NumeroDocumento" : "",
   "NumeroAllegati" : {"type" : "const", "value" : 0},
-  "Dataevid" : {"type" : "const", "value" : "A"},
+  "Dataevid" : "",
   "OggettoStandard" : "",
-  "Utente" : {"type" : "const", "value" : "A"},
-  "Ruolo" : {"type" : "const", "value" : "A"},
-  "Allegato" : [{
-    "TipoFile" : "",
-    "ContentType" : "",
-    "Image" : "",
-    "Commento" : "",
-    "NomeAllegato" : ""
-  }]
+  "Utente" : {"type" : "const", "value" : "AMMINISTRATORE"},
+  "Ruolo" : {"type" : "const", "value" : "AMMINISTRATORE"},
+  "Allegato" : {"type" : "complex-value", "value" : [{
+		"TipoFile" : {"type" : "const", "value" : "PDF"},
+		"ContentType" : {"type" : "const", "value" : "application-pdf"},
+		"Image" : {"type" : "item", "function" : "getFile", "value" : "istanza"},
+		"Commento" : "",
+		"NomeAllegato" : {"type" : "const", "value" : "istanza-dehor.pdf"}
+	  }]
+   }
 }

@@ -61,6 +61,10 @@ class irideConvert(object):
                 return self.item(v)
             elif t == "function":
                 pass
+            elif t == "complex-value":
+                pass
+            elif t == "complex-list":
+                pass
 
     def const(self,v):
         if 'value' in v.keys():
@@ -79,7 +83,13 @@ class irideConvert(object):
             return v.strftime("%d/%m/%Y")
         else:
             return 'error - 4'
-
+            
+    def Now(self,v):
+        return DateTime().strftime("%d/%m/%Y")
+    
+    def getFile(self,v):
+        return ""
+    
     def function(self,v):
         if 'value' in v.keys() and 'name' in v.keys():
             val = self.document.getItem(v['value'],'')
