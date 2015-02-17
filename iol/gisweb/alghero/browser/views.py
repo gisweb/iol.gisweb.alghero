@@ -42,3 +42,15 @@ class protocollaInvia1(object):
         res = iDoc.richiediProtocollo()
         return res
 
+class testWf(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self):
+        doc = self.aq_parent        
+        iDoc = IolApp(doc)
+        res = iDoc.testWf()
+        return res
+
+

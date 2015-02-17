@@ -60,7 +60,7 @@ class IolApp(object):
         def open_my_url(url, **args):
             uu = '%s?%s' %(url, urlencode(args))
             return json.loads(open_url(uu))
-        modelli=json.loads(doc.printModelli(doc.getParentDatabase().getId()))    
+        modelli=json.loads(self.printModelli(doc.getParentDatabase().getId()))    
         if modelli['success']==1:
             outlist1=['%s|%s' %(models,modelli[models]['model']) for models in modelli.keys() if models!='success']
             outlist = outlist1 + outlist
@@ -72,6 +72,21 @@ class IolApp(object):
 
 
         return outlist
+
+    security.declarePublic('testWf')
+    def testWf(self,wfname=''):
+        obj = self.document
+        import pdb; pdb.set_trace()
+        wftool = api.portal.get_tool(name='portal_workflow')
+        chain = wftool.getChainFor(obj)
+        wf = wftool.getWorkflowById(wfname)
+        transition = wftool.getTransitionsFor(obj)
+        # restituisce info di una variabile
+        info = wf.getInfoFor(obj,'review_state',default='')
+        var = wf.listObjectActions(info)
+        catVars = wftool.getCatalogVariablesFor(obj)
+            #if wf.isActionSupported(obj, tr):
+        return catVars
         
     security.declarePublic('printModelli')
     def printModelli(self,db_name='',grp='autorizzazione',field='documenti_autorizzazione', folder='modelli'):

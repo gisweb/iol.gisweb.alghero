@@ -250,11 +250,11 @@ class dehorApp(object):
         iDoc = IolApp(doc)
         db=doc.getParentDatabase()
         if doc.getItem('elenco_rate_pagamenti',''):
-            rate= iDoc.translateListToDiz(doc.getId(),'sub_elenco_pagamenti','elenco_rate_pagamenti')
+            rate= iDoc.translateListToDiz('sub_elenco_pagamenti','elenco_rate_pagamenti')
         else:
             rate = []
         if doc.getItem('elenco_rate_pagamenti_temp',''):
-            pagamenti_temp = iDoc.translateListToDiz(doc.getId(),'sub_elenco_pagamenti','elenco_rate_pagamenti_temp')
+            pagamenti_temp = iDoc.translateListToDiz('sub_elenco_pagamenti','elenco_rate_pagamenti_temp')
         else:
             pagamenti_temp = []
         form = db.getForm('sub_elenco_pagamenti')

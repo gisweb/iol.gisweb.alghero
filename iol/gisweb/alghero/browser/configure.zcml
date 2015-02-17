@@ -9,4 +9,11 @@
        class=".views.protocollaInvia"
        permission="zope2.View"
        />
+    <browser:page
+       name="testWf"
+       for="iol.gisweb.alghero.interfaces.IIolApp"
+       layer="..interfaces.IIolAppsLayer"
+       class=".views.testWf"
+       permission="zope2.View"
+       />   
 </configure>
