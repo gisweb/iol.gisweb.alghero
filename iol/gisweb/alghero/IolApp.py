@@ -11,7 +11,9 @@ from zope.component import getGlobalSiteManager
 from iol.gisweb.utils import config
 from zope.component import getUtility
 from .interfaces import IIolApp
-
+import DateTime
+import datetime
+from iol.gisweb.utils.config import USER_CREDITABLE_FIELD,USER_UNIQUE_FIELD,IOL_APPS_FIELD,STATUS_FIELD,IOL_NUM_FIELD,APP_FIELD
 
 class IolApp(object):
     implements(IIolApp)
@@ -43,6 +45,70 @@ class IolApp(object):
     def creaElencoRate(self,obj):
         utils = getUtility(IIolApp,self.tipo_app)
         return utils.creaElencoRate(self.document)
+
+    security.declarePublic('elenco_modelli')
+    def elenco_modelli(self,sub_path):
+        doc = self.document
+        app = APP_FIELD
+        nullchoice = 'Manca il modello, scegliere un modello di stampa per abilitare la funzione|'
+        outlist = [nullchoice]
+        url_info = doc.get_property('ws_listmodel_URL')
+        try:
+            proj = doc.get_property('project')['value']
+        except:
+            proj = ''
+        def open_my_url(url, **args):
+            uu = '%s?%s' %(url, urlencode(args))
+            return json.loads(open_url(uu))
+        modelli=json.loads(doc.printModelli(doc.getParentDatabase().getId()))    
+        if modelli['success']==1:
+            outlist1=['%s|%s' %(models,modelli[models]['model']) for models in modelli.keys() if models!='success']
+            outlist = outlist1 + outlist
+        elif 'value' in url_info:
+            outlist += open_my_url(url_info['value'], app=app, group=sub_path, project=proj)
+
+        if doc.test_mode() and len(outlist)==1:
+            outlist += ['test|test']
+
+
+        return outlist
+        
+    security.declarePublic('printModelli')
+    def printModelli(self,db_name='',grp='autorizzazione',field='documenti_autorizzazione', folder='modelli'):
+        doc = self.document
+        db = db_name.split('_')[-1]
+        for obj in doc.getParentDatabase().aq_parent.listFolderContents():
+            if obj.getId()==folder:
+                folder= obj 
+        dizFile={}
+        try:
+            for i in folder.getFolderContents():
+                obj=i.getObject()
+                if db in obj.getId():                
+                    sub_folders = obj.getFolderContents()                
+                    pathFolder = [i.getObject().absolute_url() for i in sub_folders if grp in i.getObject().getId()][0]            
+                    fileNames = [i.getObject().keys() for i in sub_folders if grp in i.getObject().getId()][0]   
+                    
+                    if len(fileNames)>0:                    
+                        dizFile={}
+                        for fileName in fileNames:
+                            diz={}
+                            pathModel= '%s/%s' %(pathFolder,fileName)
+                            
+                            diz['model']= pathModel
+                            diz['field']=field                        
+                            dizFile[fileName]=diz
+                            dizFile['success']=1                          
+                    else:
+                       
+                        dizFile['model']='test'
+                        dizFile['field']=field
+                        
+                    return json.dumps(dizFile,default=DateTime.DateTime.ISO,use_decimal=True)
+        except:
+            dizFile['success']=0
+            return json.dumps(dizFile,default=DateTime.DateTime.ISO,use_decimal=True)            
+    
 
     security.declarePublic('translateListToDiz')
     def translateListToDiz(self,form='',field=''):
