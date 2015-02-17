@@ -29,9 +29,96 @@ class IolApp(object):
         utils = getUtility(IIolApp,self.tipo_app)
         return utils.NuovoNumeroPratica(self.document)
 
+    security.declarePublic('creaElencoPagamenti')
+    def creaElencoPagamenti(self,codici_pagamenti,codice_allegato='',allegato=False):
+        utils = getUtility(IIolApp,self.tipo_app)
+        return utils.creaElencoPagamenti(self.document,codici_pagamenti,codice_allegato='',allegato=False)
+        
     security.declarePublic('translateListToDiz')
-    def translateListToDiz(self):
-        return dict(pippo=1)
+    def translateListToDiz(self,form='',field=''):
+        doc = self.document
+        db=doc.getParentDatabase()
+        form = db.getForm(form)
+        fld = form.getFormField(field)
+        elenco_fields = fld.getSettings().field_mapping    
+        lista_fields = elenco_fields.split(',')
+
+
+        diz_tot=[]
+        for idx,itm in enumerate(doc.getItem(field)):
+            diz = {}
+            for k,v in enumerate(lista_fields):
+                diz[v] = doc.getItem(field)[idx][k]
+            diz_tot.append(diz)
+        return diz_tot
+
+    security.declarePublic('translateDizToList')
+    def translateDizToList(self,form='',field='',diz_dg_elements=[]):
+        doc = self.document
+        db=doc.getParentDatabase()
+        form = db.getForm(form)
+        fld = form.getFormField(field)
+        elenco_fields = fld.getSettings().field_mapping    
+        lista_fields = elenco_fields.split(',')
+        dg=[]
+        for diz_element in diz_dg_elements:
+            diz_pos = {}
+            dg_element = []
+            for key in diz_element.keys():
+                if key in lista_fields:        
+                    pos = lista_fields.index(key)
+                    diz_pos[pos]=key        
+            for i in range(len(diz_pos)):        
+                k = diz_pos[i]
+                dg_element.append(diz_element[k])
+            dg.append(dg_element)
+        return dg
+
+    security.declarePublic('confrontaDiz')
+    # confronta 2 dizionari e restituisce un booleano, True: sono uguali, False: i due diz sono diversi
+    def confrontaDiz(self,diz,diz_temp):
+        for d in diz.keys():
+            if d in diz_temp.keys():
+                sub_diz = diz[d]         
+
+                for sub_diz_k in sub_diz.keys():                
+                    if sub_diz[sub_diz_k] != diz_temp[d][sub_diz_k]:
+                        return False
+        return True     
+    
+    def createMapPagamenti(self,codici_pagamenti):
+        doc = self.document
+
+        def updateDictPagamenti(codici_pagamenti):
+            doc = self.document
+            if len(codici_pagamenti)>0:
+                cod_pagamenti = codici_pagamenti[0]
+
+                db=doc.getParentDatabase()
+                lista_codici_pagamenti = cod_pagamenti.keys()
+                
+                list_codici = map(lambda codice: 'pagamenti-' + str(codice) ,lista_codici_pagamenti)    
+                diz_pagamenti = dict()
+                for codice in list_codici:
+                    diz_pagamento = dict()
+                    for v in db.get_property(codice)['value'].replace('\n','').split(','):
+                        # cod_lista es.'007' 
+                        cod_lista = codice.split('-')[1]
+                        key = v.split(':')[0]
+                        value = v.split(':')[1]         
+
+                        if key == 'importo_sub_pagamento' and cod_pagamenti[cod_lista] == '':
+                            diz_pagamento[key]=value
+                        elif key == 'importo_sub_pagamento':
+                            diz_pagamento[key]=cod_pagamenti[cod_lista]    
+                        else:    
+                            diz_pagamento[key]=value
+
+                    diz_pagamenti[codice.split('-')[1]]=diz_pagamento   
+                return diz_pagamenti
+            else:
+                return dict()
+        return updateDictPagamenti(codici_pagamenti) 
 
     #Legge un file json dalla cartella mapping
     def loadJsonData(self,json_file):
