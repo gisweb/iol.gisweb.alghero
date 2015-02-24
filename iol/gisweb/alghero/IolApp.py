@@ -46,6 +46,11 @@ class IolApp(object):
         utils = getUtility(IIolApp,self.tipo_app)
         return utils.creaElencoRate(self.document)
 
+    security.declarePublic('gruppiPareri')
+    def gruppiPareri(self):
+        utils = getUtility(IIolApp,self.tipo_app)
+        return utils.gruppiPareri(self.document)      
+
     security.declarePublic('elenco_modelli')
     def elenco_modelli(self,sub_path):
         doc = self.document

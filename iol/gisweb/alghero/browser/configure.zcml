@@ -16,4 +16,11 @@
        class=".views.testWf"
        permission="zope2.View"
        />   
+    <browser:page
+       name="gruppiPareri"
+       for="iol.gisweb.alghero.interfaces.IIolApp"
+       layer="..interfaces.IIolAppsLayer"
+       class=".views.gruppiPareri"
+       permission="zope2.View"
+       />    
 </configure>

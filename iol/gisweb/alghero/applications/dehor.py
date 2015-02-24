@@ -47,6 +47,21 @@ class dehorApp(object):
             res[k] = irideConvert(doc)(v)
         return res
 
+    # restituisce il tipo di parere
+    security.declarePublic('gruppiPareri')
+    def gruppiPareri(self,obj):
+        
+        doc = obj
+        current_member = doc.getParentDatabase().getCurrentUserId()
+        groups_tool = getToolByName(doc, 'portal_groups')        
+
+        pareri_richiesti = doc.getItem('req_parere','').split(',')
+        gruppi = [grp.getId() for grp in groups_tool.getGroupsByUserId(current_member) if grp.getId().startswith('istruttori-pareri-')]
+        if len(gruppi)>0:
+            return gruppi[0].split('-')[-1]
+
+
+
     security.declarePublic('creaElencoPagamenti')
     def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):
         doc = obj

@@ -37,10 +37,9 @@ class defaultApp(object):
 
     security.declarePublic('creaElencoRate')
     def creaElencoRate(self,obj):
-        pass
+        pass  
 
-
-
+    
 
     security.declarePublic('creaElencoPagamenti')
     def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):

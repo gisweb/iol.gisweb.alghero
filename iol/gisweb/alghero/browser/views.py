@@ -2,7 +2,7 @@
 from Products.CMFCore.utils import getToolByName
 from plone.dexterity.browser.view import DefaultView
 from plone import api
-
+from iol.gisweb.alghero.IolApp import IolApp
 from zope.component import getUtility
 from iol.gisweb.alghero.IolIride import IolIride
 from random import randint
@@ -52,5 +52,18 @@ class testWf(object):
         iDoc = IolApp(doc)
         res = iDoc.testWf()
         return res
+
+class gruppiPareri(object):
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        
+    def __call__(self):
+        doc = self.aq_parent        
+        iDoc = IolApp(doc)
+        res = iDoc.gruppiPareri()
+        return res    
+
+
 
 
