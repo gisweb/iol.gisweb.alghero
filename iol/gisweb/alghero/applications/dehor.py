@@ -106,7 +106,7 @@ class dehorApp(object):
                 d[diz['codice_sub_pagamento']]=diz        
             return d
         
-        allegato_pagamento = [x for x in [i for i in doc.getItems() if i.startswith('ricevuta_pagamento')] if context.getItem(x)!={}]
+        allegato_pagamento = [x for x in [i for i in doc.getItems() if i.startswith('ricevuta_pagamento')] if doc.getItem(x)!={}]
         if not doc.getItem('elenco_pagamenti'):
     
             if len(allegato_pagamento) > 0:
