@@ -9,8 +9,8 @@ from gisweb.iol.permissions import IOL_READ_PERMISSION, IOL_EDIT_PERMISSION, IOL
 import simplejson as json
 from iol.gisweb.utils.config import USER_CREDITABLE_FIELD,USER_UNIQUE_FIELD,IOL_APPS_FIELD,STATUS_FIELD,IOL_NUM_FIELD,APP_FIELD
 from Products.CMFCore.utils import getToolByName
-
-
+from gisweb.utils import sendMail
+import os
 
 class defaultApp(object):
     implements(IIolApp)
@@ -37,9 +37,30 @@ class defaultApp(object):
 
     security.declarePublic('creaElencoRate')
     def creaElencoRate(self,obj):
-        pass  
+        pass
+
+    def getConvData(self,json_file):
+        fName = "%s/mapping/%s.json" %(os.path.dirname(os.path.abspath(__file__)),json_file)
+        
+        if os.path.isfile(fName):
+            json_data=open(fName)
+
+            try:
+                data = json.load(json_data)
+
+            except ValueError, e:
+                data = str(e)
+                json_data.close()
+               
+        else:
+            return fName
+            data = dict()
+        return data      
 
     
+
+    
+
 
     security.declarePublic('creaElencoPagamenti')
     def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):

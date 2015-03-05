@@ -35,6 +35,29 @@ class dehorApp(object):
 
         return nuovoNumero
 
+    security.declarePublic('sendThisMail')
+    def sendThisMail(self,obj,ObjectId, sender='', debug=0,To='',password=''):
+        doc = obj
+        db = doc.getParentDatabase()
+        iDoc = IolApp(doc)
+        diz_mail = iDoc.getConvData('mail_%s' %('dehor'))
+        
+        msg_info = dict(numero_pratica = doc.getItem('numero_pratica'),titolo = doc.Title(),
+        now = DateTime().strftime('%d/%m/%Y'))
+        args = dict(To = doc.getItem('fisica_email') if To == '' else To,From = sender,as_script = debug)
+        custom_args = dict()
+        if not args['To']:
+            plone_tools = getToolByName(doc.getParentDatabase().aq_inner, 'plone_utils')
+            msg = ''''ATTENZIONE! Non e' stato possibile inviare la mail perche' non esiste nessun destinatario'''
+            plone_tools.addPortalMessage(msg, request=doc.REQUEST)
+            return None
+        attach_list = doc.getFilenames()
+        if ObjectId in diz_mail.keys():
+            if diz_mail.get('attach') != '':
+                msg_info.update(dict(attach = diz_mail.get('attach')))
+
+            custom_args = dict(Object = diz_mail[ObjectId].get('object') % msg_info,
+                msg = doc.mime_file(file = '' if not msg_info.get('attach') in attach_list else doc[msg_info['attach']], text = diz_mail[ObjectId].get('text') % msg_info, nomefile = diz_mail[ObjectId].get('nomefile')) % msg_info)  
 
     #Ritorna il nuovo munero di protocollo preso da iride
     security.declarePublic('richiediProtocollo')

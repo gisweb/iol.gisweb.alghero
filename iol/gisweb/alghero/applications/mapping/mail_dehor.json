@@ -1,0 +1,3 @@
+{"assegna":{"object":"Avvio del Procedimento pratica. n. %(numero_pratica)s - %(titolo)s","attach":"","text":"Si comunica che in data %(now)s è stato avviato il procedimento n. %(numero_pratica)s."},
+"integra":{"object":"Integrazione pratica. n. %(numero_pratica)s - %(titolo)s","attach":"","text":"Si comunica che in data %(now)s il procedimento n. %(numero_pratica)s è stato integrato."},
+"autorizza":{"object":"Autorizzazione pratica. n. %(numero_pratica)s - %(titolo)s","attach":"","text":"Si comunica che in data %(now)s il procedimento n. %(numero_pratica)s è stato autorizzato."}}

@@ -49,7 +49,18 @@ class IolApp(object):
     security.declarePublic('gruppiPareri')
     def gruppiPareri(self):
         utils = getUtility(IIolApp,self.tipo_app)
-        return utils.gruppiPareri(self.document)      
+        return utils.gruppiPareri(self.document) 
+
+    security.declarePublic('getConvData')
+    def getConvData(self,json_data):
+        utils = getUtility(IIolApp,'default')
+        return utils.getConvData(json_data)
+
+    security.declarePublic('sendThisMail')
+    def sendThisMail(self,ObjectId,sender='',debug=0,To='',password=''):
+
+        utils = getUtility(IIolApp,self.tipo_app)
+        return utils.sendThisMail(self.document,ObjectId,sender,debug,To,password)  
 
     security.declarePublic('elenco_modelli')
     def elenco_modelli(self,sub_path):
