@@ -57,8 +57,7 @@ class IolApp(object):
         return utils.getConvData(json_data)
 
     security.declarePublic('sendThisMail')
-    def sendThisMail(self,ObjectId,sender='',debug=0,To='',password=''):
-
+    def sendThisMail(self,ObjectId,sender='',debug=0,To='',password=''):        
         utils = getUtility(IIolApp,self.tipo_app)
         return utils.sendThisMail(self.document,ObjectId,sender,debug,To,password)  
 

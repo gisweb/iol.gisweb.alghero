@@ -20,6 +20,7 @@ iol/gisweb/alghero/setuphandlers.py
 iol/gisweb/alghero/tests.py
 iol/gisweb/alghero/applications/__init__.py
 iol/gisweb/alghero/applications/default.py
+iol/gisweb/alghero/applications/dehor.py
 iol/gisweb/alghero/applications/scia.py
 iol/gisweb/alghero/browser/__init__.py
 iol/gisweb/alghero/browser/views.py
