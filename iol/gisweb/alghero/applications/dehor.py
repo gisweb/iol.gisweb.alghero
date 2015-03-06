@@ -12,7 +12,7 @@ from iol.gisweb.utils.config import USER_CREDITABLE_FIELD,USER_UNIQUE_FIELD,IOL_
 from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
-from iol.gisweb.utils.IolDocument import sendMail
+from iol.gisweb.utils.IolDocument import IolDocument
 
 class dehorApp(object):
     implements(IIolApp)
@@ -60,7 +60,7 @@ class dehorApp(object):
                 msg = doc.mime_file(file = '' if not msg_info.get('attach') in attach_list else doc[msg_info['attach']], text = diz_mail[ObjectId].get('text') % msg_info, nomefile = diz_mail[ObjectId].get('nomefile')) % msg_info)  
         if custom_args:
             args.update(custom_args)
-            return sendMail(**args)
+            return IolDocument.sendMail(**args)
     #Ritorna il nuovo munero di protocollo preso da iride
     security.declarePublic('richiediProtocollo')
     def richiediProtocollo(self,obj):
