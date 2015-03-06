@@ -12,7 +12,7 @@ from iol.gisweb.utils.config import USER_CREDITABLE_FIELD,USER_UNIQUE_FIELD,IOL_
 from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
-from iol.gisweb.utils import sendMail
+from iol.gisweb.utils.IolDocument import sendMail
 
 class dehorApp(object):
     implements(IIolApp)
