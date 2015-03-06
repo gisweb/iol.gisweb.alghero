@@ -60,6 +60,7 @@ class dehorApp(object):
                 msg = doc.mime_file(file = '' if not msg_info.get('attach') in attach_list else doc[msg_info['attach']], text = diz_mail[ObjectId].get('text') % msg_info, nomefile = diz_mail[ObjectId].get('nomefile')) % msg_info)  
         if custom_args:
             args.update(custom_args)
+            return args
             return IolDocument.sendMail(**args)
     #Ritorna il nuovo munero di protocollo preso da iride
     security.declarePublic('richiediProtocollo')
