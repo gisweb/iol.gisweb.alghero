@@ -44,7 +44,8 @@ class dehorApp(object):
         
         msg_info = dict(numero_pratica = doc.getItem('numero_pratica'),titolo = doc.Title(),
         now = DateTime().strftime('%d/%m/%Y'),istruttore = doc.getItem('istruttore'),numero_protocollo = doc.getItem('numero_protocollo'),
-        link_pratica = doc.absolute_url())
+        link_pratica = doc.absolute_url(), data_pratica = doc.getItem('data_pratica'), istruttoria_motivo_sospensione = doc.getItem('istruttoria_motivo_sospensione'),
+        documenti_autorizzazione = doc.getItem('documenti_autorizzazione',{'': ''}).keys()[0])
         args = dict(To = doc.getItem('fisica_email') if To == '' else To,From = sender,as_script = debug)
         custom_args = dict()
         
@@ -59,7 +60,7 @@ class dehorApp(object):
         if ObjectId in diz_mail.keys():
             
             if diz_mail[ObjectId].get('attach') != "":                
-                msg_info.update(dict(attach = diz_mail.get('attach')))
+                msg_info.update(dict(attach = diz_mail[ObjectId].get('attach')))
 
                 custom_args = dict(Object = diz_mail[ObjectId].get('object') % msg_info,
                 msg = doc.mime_file(file = '' if not msg_info.get('attach') in attach_list else doc[msg_info['attach']], text = diz_mail[ObjectId].get('text') % msg_info, nomefile = diz_mail[ObjectId].get('nomefile')) % msg_info)
