@@ -22,3 +22,6 @@ gsm.registerUtility(app, IIolApp, 'scia')
 
 app = dehorApp()
 gsm.registerUtility(app, IIolApp, 'dehor')
+
+app = utentiApp()
+gsm.registerUtility(app, IIolApp, 'utenti')
