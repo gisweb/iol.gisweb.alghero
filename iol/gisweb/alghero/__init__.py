@@ -6,6 +6,7 @@ from .interfaces import IIolApp
 from .applications.default import defaultApp
 from .applications.scia import sciaApp
 from .applications.dehor import dehorApp
+from .applications.dehor import utentiApp
 
 
 allow_module("iol.gisweb.alghero.IolApp")
