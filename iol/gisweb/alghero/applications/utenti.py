@@ -14,7 +14,7 @@ from DateTime import DateTime
 from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
 from iol.gisweb.utils.IolDocument import IolDocument
 
-class accreditamentiApp(object):
+class utentiApp(object):
     implements(IIolApp)
     security = ClassSecurityInfo()
     def __init__(self):
