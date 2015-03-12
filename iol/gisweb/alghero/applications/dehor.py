@@ -44,8 +44,7 @@ class dehorApp(object):
         
         msg_info = dict(numero_pratica = doc.getItem('numero_pratica'),titolo = doc.Title(),
         now = DateTime().strftime('%d/%m/%Y'),istruttore = doc.getItem('istruttore'),numero_protocollo = doc.getItem('numero_protocollo'),
-        link_pratica = doc.absolute_url(), data_pratica = doc.getItem('data_pratica'), istruttoria_motivo_sospensione = doc.getItem('istruttoria_motivo_sospensione'),
-        documenti_autorizzazione = doc.getItem('documenti_autorizzazione',{'': ''}).keys()[0])
+        link_pratica = doc.absolute_url(), data_pratica = doc.getItem('data_pratica'), istruttoria_motivo_sospensione = doc.getItem('istruttoria_motivo_sospensione'))
         args = dict(To = doc.getItem('fisica_email') if To == '' else To,From = sender,as_script = debug)
         custom_args = dict()
         
