@@ -180,5 +180,13 @@ class defaultApp(object):
     def acquisciAllegati(selfself,obj):
         return []
 
+    security.declarePublic('protocolla')
+    def protocolla(self,mittenti,allegati,tipodoc,oggetto):
+        return dict(
+            result=dict(
+                NumeroProtocollo = None
+            )
+        )
+
 
 

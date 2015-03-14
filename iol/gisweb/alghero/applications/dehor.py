@@ -13,6 +13,7 @@ from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
 from iol.gisweb.utils.IolDocument import IolDocument
+from iol.gisweb.alghero.IolIride import IrideProtocollo
 from base64 import b64encode
 
 class dehorApp(object):
@@ -336,6 +337,7 @@ class dehorApp(object):
             Nome="%s" %doc.getItem('fisica_nome','')
         )
         return [res]
+
     security.declarePublic('acquisisciAllegati')
     def acquisisciAllegati(self,obj):
         doc = obj
@@ -345,3 +347,9 @@ class dehorApp(object):
             Image=b64encode(file)
         )
         return [res]
+
+    security.declarePublic('protocolla')
+    def protocolla(self,mittenti,allegati,tipodoc,oggetto):
+        ws = IrideProtocollo(service='wsprotocollodm.asmx?WSDL')
+        res = ws.InserisciProtocollo(mittenti=mittenti,allegati=allegati,TipoDocumento='LET',Oggetto=oggetto)
+        return res

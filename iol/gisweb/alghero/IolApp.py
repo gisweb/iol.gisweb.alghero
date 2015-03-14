@@ -256,6 +256,13 @@ class IolApp(object):
             utils = getUtility(IIolApp,config.APP_FIELD_DEFAULT_VALUE)
         return utils.acquisisciAllegati(self.document)
 
+    security.declarePublic('protocolla')
+    def protocolla(self,mittenti=[],allegati=[],tipodoc='',oggetto=''):
+        app = self.document.getItem(config.APP_FIELD,config.APP_FIELD_DEFAULT_VALUE)
+        utils = queryUtility(IIolApp,name=app, default=config.APP_FIELD_DEFAULT_VALUE)
+        if not 'protocolla' in dir(utils):
+            utils = getUtility(IIolApp,config.APP_FIELD_DEFAULT_VALUE)
+        return utils.protocolla(mittenti=mittenti,allegati=allegati,tipodoc=tipodoc,oggetto=oggetto)
 
 InitializeClass(IolApp)
 
