@@ -22,5 +22,19 @@
        layer="..interfaces.IIolAppsLayer"
        class=".views.gruppiPareri"
        permission="zope2.View"
-       />    
+       />
+    <browser:page
+       name="findDoc"
+       for="Products.CMFPlomino.interfaces.IPlominoDatabase"
+       layer="..interfaces.IIolAppsLayer"
+       class=".views.findDoc"
+       permission="zope2.View"
+    />
+    <browser:page
+       name="searchCodFis"
+       for="Products.CMFPlomino.interfaces.IPlominoDatabase"
+       layer="..interfaces.IIolAppsLayer"
+       class=".views.searchCodFis"
+       permission="zope2.View"
+    />
 </configure>

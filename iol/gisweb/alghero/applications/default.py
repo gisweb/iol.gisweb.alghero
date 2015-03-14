@@ -174,7 +174,11 @@ class defaultApp(object):
                 dg = iDoc.translateDizToList('sub_elenco_pagamenti','elenco_pagamenti',update)
                 return dg
                 
+    def acquisisciMittenti(self,obj):
+        return []
 
+    def acquisciAllegati(selfself,obj):
+        return []
 
 
 

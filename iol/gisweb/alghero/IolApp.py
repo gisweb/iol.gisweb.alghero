@@ -9,7 +9,7 @@ from App.class_init import InitializeClass
 from Products.CMFPlomino.interfaces import IPlominoDocument, IPlominoForm
 from zope.component import getGlobalSiteManager
 from iol.gisweb.utils import config
-from zope.component import getUtility
+from zope.component import getUtility,queryUtility
 from .interfaces import IIolApp
 import DateTime
 import datetime
@@ -239,4 +239,24 @@ class IolApp(object):
             return fName
             data = dict()
         return data
+
+    security.declarePublic('acquisisciMittenti')
+    def acquisisciMittenti(self):
+        app = self.document.getItem(config.APP_FIELD,config.APP_FIELD_DEFAULT_VALUE)
+        utils = queryUtility(IIolApp,name=app, default=config.APP_FIELD_DEFAULT_VALUE)
+        if not 'acquisisciMittenti' in dir(utils):
+            utils = getUtility(IIolApp,config.APP_FIELD_DEFAULT_VALUE)
+        return utils.acquisisciMittenti(self.document)
+
+    security.declarePublic('acquisisciAllegati')
+    def acquisisciAllegati(self):
+        app = self.document.getItem(config.APP_FIELD,config.APP_FIELD_DEFAULT_VALUE)
+        utils = queryUtility(IIolApp,name=app, default=config.APP_FIELD_DEFAULT_VALUE)
+        if not 'acquisisciAllegati' in dir(utils):
+            utils = getUtility(IIolApp,config.APP_FIELD_DEFAULT_VALUE)
+        return utils.acquisisciAllegati(self.document)
+
+
 InitializeClass(IolApp)
+
+

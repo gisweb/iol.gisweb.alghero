@@ -13,6 +13,7 @@ from Products.CMFCore.utils import getToolByName
 from DateTime import DateTime
 from Products.CMFPlomino.PlominoUtils import DateToString, Now, StringToDate
 from iol.gisweb.utils.IolDocument import IolDocument
+from base64 import b64encode
 
 class dehorApp(object):
     implements(IIolApp)
@@ -70,16 +71,6 @@ class dehorApp(object):
             args.update(custom_args)
             
             return IolDocument(doc).sendMail(**args)
-    #Ritorna il nuovo munero di protocollo preso da iride
-    security.declarePublic('richiediProtocollo')
-    def richiediProtocollo(self,obj):
-        doc = obj
-        iDoc = IolApp(doc)
-        jsonData = iDoc.loadJsonData('dehor.richiediProtocollo')
-        res = dict()
-        for k,v in jsonData.items():
-            res[k] = irideConvert(doc)(v)
-        return res
 
     # restituisce il tipo di parere
     security.declarePublic('gruppiPareri')
@@ -335,57 +326,22 @@ class dehorApp(object):
                     doc.setItem('elenco_rate_pagamenti_temp',dg_rate)
                     return dg_rate
 
-class irideConvert(object):
-    def __init__(self,obj):
-        self.document = obj
-    def __call__(self, v):
-        if not (isinstance(v,dict) and "type" in v.keys()):
-            return "undefined"
-        else:
-            t = v["type"]
-            if t == "const":
-                return self.const(v)
-            elif t == "item":
-                return self.item(v)
-            elif t == "function":
-                pass
-            elif t == "complex-value":
-                pass
-            elif t == "complex-list":
-                pass
-    
-    
-    
-    def const(self,v):
-        if 'value' in v.keys():
-            return v['value']
-        else:
-            return 'error - 1'
 
-    def item(self,v):
-        if 'value' in v.keys():
-            return self.document.getItem(v['value'],'')
-        else:
-            return 'error - 2'
-
-    def dateToString(self,v):
-        if isinstance(v,DateTime):
-            return v.strftime("%d/%m/%Y")
-        else:
-            return 'error - 4'
-            
-    def Now(self,v):
-        return DateTime().strftime("%d/%m/%Y")
-    
-    def getFile(self,v):
-        return ""
-    
-    def function(self,v):
-        if 'value' in v.keys() and 'name' in v.keys():
-            val = self.document.getItem(v['value'],'')
-            if hasattr(self.__class__, key) and callable(getattr(self.__class__, key)):
-                return self[key](val)
-            else:
-                return 'error - 3'
-        else:
-            return 'error - 2'
+    security.declarePublic('acquisisciMittente')
+    def acquisisciMittenti(self,obj):
+        doc = obj
+        res = dict(
+            CodiceFiscale="%s" %doc.getItem('fisica_cf',''),
+            CognomeNome="%s %s" % (doc.getItem('fisica_cognome',''),doc.getItem('fisica_nome','')),
+            Nome="%s" %doc.getItem('fisica_nome','')
+        )
+        return [res]
+    security.declarePublic('acquisisciAllegati')
+    def acquisisciAllegati(self,obj):
+        doc = obj
+        file = doc.restrictedTraverse('@@wkpdf').get_pdf_file()
+        res = dict(
+            TipoFile="PDF",
+            Image=b64encode(file)
+        )
+        return [res]
