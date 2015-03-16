@@ -60,7 +60,8 @@ class dehorApp(object):
         
         if ObjectId in diz_mail.keys():
             
-            if diz_mail[ObjectId].get('attach') != "":                
+            if diz_mail[ObjectId].get('attach') != "":
+                msg_info.update(dict(documenti_autorizzazione = doc.getItem('documenti_autorizzazione')))                 
                 msg_info.update(dict(attach = diz_mail[ObjectId].get('attach')))
 
                 custom_args = dict(Object = diz_mail[ObjectId].get('object') % msg_info,
