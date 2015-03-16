@@ -32,9 +32,9 @@ class IolApp(object):
         return utils.NuovoNumeroPratica(self.document)
 
     security.declarePublic('creaElencoPagamenti')
-    def creaElencoPagamenti(self,codici_pagamenti,codice_allegato='',allegato=False):
+    def creaElencoPagamenti(self,codici_pagamenti,codice_allegato,allegato=False):
         utils = getUtility(IIolApp,self.tipo_app)
-        return utils.creaElencoPagamenti(self.document,codici_pagamenti,codice_allegato='',allegato=False)
+        return utils.creaElencoPagamenti(self.document,codici_pagamenti,codice_allegato,allegato=False)
 
     security.declarePublic('ratePagamenti')
     def ratePagamenti(self,obj,codice_pagamento):

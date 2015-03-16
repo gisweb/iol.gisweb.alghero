@@ -89,7 +89,7 @@ class dehorApp(object):
 
 
     security.declarePublic('creaElencoPagamenti')
-    def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):
+    def creaElencoPagamenti(self,obj,codici_pagamenti,codice_allegato='',allegato=False):        
         doc = obj
         iDoc = IolApp(doc)
         wf = getToolByName(doc, 'portal_workflow')
@@ -128,13 +128,13 @@ class dehorApp(object):
 
 
         def updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,stato_pagamento,codice_allegato):
-            codici = [codice_allegato]
+            codici = [codice_allegato]        
             for codice in diz_exist_pagamenti.keys():
                 diz_exist_pagamenti[codice]['importo_sub_pagamento']=diz_pagamenti[codice]['importo_sub_pagamento']
                 if codice in codici:
                     
                     diz_exist_pagamenti[codice]['stato_pagamento']=stato_pagamento
-            lista = []        
+            lista = []                 
             for k in diz_exist_pagamenti.keys():
                 
                 lista.append(diz_exist_pagamenti[k])
@@ -149,8 +149,9 @@ class dehorApp(object):
         
         allegato_pagamento = [x for x in [i for i in doc.getItems() if i.startswith('ricevuta_pagamento')] if doc.getItem(x)!={}]
         if not doc.getItem('elenco_pagamenti'):
-    
+            
             if len(allegato_pagamento) > 0:
+                
                 wf.doActionFor(doc, 'effettua_pagamento')
                 dg_create = createDizPagamenti(insertFieldAbsent(form,fld,diz_pagamenti,elenco_fields),'in attesa di verifica')
                 dg = iDoc.translateDizToList('sub_elenco_pagamenti','elenco_pagamenti_temp',dg_create)
@@ -165,6 +166,7 @@ class dehorApp(object):
                 doc.setItem('elenco_pagamenti_temp',dg)
                 return dg
         elif iDoc.confrontaDiz(dizKeyCod(pagamenti),dizKeyCod(pagamenti_temp)) == True:
+            
             # i dizionari non sono cambiati quindi non è stato aggiornato manualmente il dg 
             
             if doc.wf_getInfoFor('wf_ricevuta_pagamento',wf_id='pagamenti_allegati') == True or doc.wf_getInfoFor('wf_ricevuta_pagamento',wf_id='pagamenti_allegati')=='true':
@@ -175,8 +177,7 @@ class dehorApp(object):
                         
                 diz_exist_pagamenti = dizKeyCod(pagamenti)
                 
-                update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato)
-                
+                update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato)                
                 dg = iDoc.translateDizToList('sub_elenco_pagamenti','elenco_pagamenti_temp',update)
                 doc.setItem('elenco_pagamenti_temp',dg)
                 return dg
