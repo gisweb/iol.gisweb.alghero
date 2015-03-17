@@ -128,13 +128,14 @@ class dehorApp(object):
             return elenco_diz
 
 
-        def updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,stato_pagamento,codice_allegato):
+        def updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,stato_pagamento,codice_allegato,allegato=''):
             codici = [codice_allegato]        
             for codice in diz_exist_pagamenti.keys():
                 diz_exist_pagamenti[codice]['importo_sub_pagamento']=diz_pagamenti[codice]['importo_sub_pagamento']
                 if codice in codici:
-                    
-                    diz_exist_pagamenti[codice]['stato_pagamento']=stato_pagamento
+                    if allegato != '':
+                        diz_exist_pagamenti[codice]['codice_pos'] = allegato.keys()[0]   
+                    diz_exist_pagamenti[codice]['stato_pagamento'] = stato_pagamento
             lista = []                 
             for k in diz_exist_pagamenti.keys():
                 
@@ -149,6 +150,8 @@ class dehorApp(object):
             return d
         
         allegato_pagamento = [x for x in [i for i in doc.getItems() if i.startswith('ricevuta_pagamento')] if doc.getItem(x)!={}]
+        allegato_rate = [x for x in [i for i in doc.getItems() if i.startswith('rate_pagamento_ricevuta')] if doc.getItem(x)!={}]
+
         if not doc.getItem('elenco_pagamenti'):
             
             if len(allegato_pagamento) > 0:
@@ -177,8 +180,10 @@ class dehorApp(object):
                         #wf.doActionFor(doc, 'effettua_pagamento')
                         
                 diz_exist_pagamenti = dizKeyCod(pagamenti)
-                
-                update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato)                
+                if doc.getItem('numero_rate_allegate') == 0:
+                    update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato,allegato = allegato_pagamento)                
+                elif doc.getItem('numero_rate_allegate') >= 1 and len(allegato_rate) > 0:
+		    update = updateDizPagamenti(diz_pagamenti,diz_exist_pagamenti,'in attesa di verifica',codice_allegato=codice_allegato,allegato = allegato_rate)                
                 dg = iDoc.translateDizToList('sub_elenco_pagamenti','elenco_pagamenti_temp',update)
                 doc.setItem('elenco_pagamenti_temp',dg)
                 return dg
