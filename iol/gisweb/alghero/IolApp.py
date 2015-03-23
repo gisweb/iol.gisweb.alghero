@@ -139,6 +139,24 @@ class IolApp(object):
             dizFile['success']=0
             return json.dumps(dizFile,default=DateTime.DateTime.ISO,use_decimal=True)            
     
+    security.declarePublic('translateListSource')
+    def translateListSource(self,lista,form='',field=''):
+        doc = self.document
+        db=doc.getParentDatabase()
+	form = db.getForm(form)
+	fld = form.getFormField(field)
+	elenco_fields = fld.getSettings().field_mapping    
+	lista_fields = elenco_fields.split(',')
+
+	diz_tot=[]
+	for idx,itm in enumerate(lista):
+	    diz = {}
+	    for k,v in enumerate(lista_fields):
+		diz[v] = lista[idx][k]
+	    diz_tot.append(diz)
+	return diz_tot
+
+    
 
     security.declarePublic('translateListToDiz')
     def translateListToDiz(self,form='',field=''):
