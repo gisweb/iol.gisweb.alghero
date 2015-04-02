@@ -356,5 +356,5 @@ class dehorApp(object):
     security.declarePublic('protocolla')
     def protocolla(self,mittenti,allegati,tipodoc,oggetto):
         ws = IrideProtocollo(service='wsprotocollodm.asmx?WSDL')
-        res = ws.InserisciProtocollo(mittenti=mittenti,allegati=allegati,TipoDocumento='LET',Oggetto=oggetto)
+        res = ws.InserisciProtocollo(mittenti=mittenti,allegati=allegati,TipoDocumento='DG',Oggetto=oggetto)
         return res
