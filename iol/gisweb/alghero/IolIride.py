@@ -26,7 +26,7 @@ from DateTime import DateTime
 #URL = 'http://10.94.128.230/ulissetest/iride/web_services_20/WSProtocolloDM/WSProtocolloDM.asmx?WSDL'
 
 UTENTE = 'AMMINISTRATORE'
-RUOLO = 'UO_140'
+RUOLO = "UO_220"
 APPARTENENZA = 'DOCUMENTO'
 
 def get_current_datetime_as_string():
