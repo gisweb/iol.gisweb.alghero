@@ -212,8 +212,8 @@ def deep_normalize(d):
 
 class Iride():
     """ Base class for interfacing to Iride web services """
-    HOST = 'http://www.cedaf.it' # 'http://127.0.0.1:3340' #
-    SPATH = 'ulisse14a/iride/web_services_20/wsprotocollodm/'
+    HOST = 'http://srv-protocollo' # 'http://127.0.0.1:3340' #
+    SPATH = 'ulisse/iride/web_services_20/wsprotocolloDM/'
     Utente = UTENTE
     Ruolo = RUOLO
     timeout = 180
