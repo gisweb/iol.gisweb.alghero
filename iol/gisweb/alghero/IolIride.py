@@ -26,7 +26,7 @@ from DateTime import DateTime
 #URL = 'http://10.94.128.230/ulissetest/iride/web_services_20/WSProtocolloDM/WSProtocolloDM.asmx?WSDL'
 
 UTENTE = 'AMMINISTRATORE'
-RUOLO = 'AMMINISTRATORE'
+RUOLO = 'UO_140'
 APPARTENENZA = 'DOCUMENTO'
 
 def get_current_datetime_as_string():
@@ -330,9 +330,9 @@ class Iride():
             Utente = UTENTE,
             Ruolo = RUOLO,
             Origine = 'A',
-            MittenteInterno = 'PROTO02',
+            MittenteInterno = 'UO_140',
             Data = date.today().isoformat(),
-            Classifica = '01.07'
+            Classifica = '04.09'
         )
 
         request = self.build_xml('ProtocolloIn', **dict(defaults, **kw))
@@ -403,7 +403,7 @@ class IrideProtocollo(Iride):
             Origine = 'A',
             #MittenteInterno = 'PROTO02',
             Data = date.today().isoformat(),
-            Classifica = '01.07',
+            Classifica = '04.09',
             AggiornaAnagrafiche='S'
         )
 
