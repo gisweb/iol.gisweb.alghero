@@ -346,7 +346,10 @@ class dehorApp(object):
     security.declarePublic('acquisisciAllegati')
     def acquisisciAllegati(self,obj):
         doc = obj
-        file = doc.restrictedTraverse('@@wkpdf').get_pdf_file()
+        try:
+        	file = doc.restrictedTraverse('@@wkpdf').get_pdf_file()
+        except:
+        	file = ""
         res = dict(
             TipoFile="PDF",
             Image=b64encode(file)
